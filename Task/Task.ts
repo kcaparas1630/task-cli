@@ -4,14 +4,15 @@ const { stdin: input, stdout: output } = require('node:process');
 
 const rl = readLine.createInterface({ input, output });
 
-// not sure how importing works on this one.
 interface TaskInterface {
     taskName: string;
     taskDescription: string;
     taskProgress: string;
 }
-const taskArray: TaskInterface[] = []; // task array
 
+const taskArray: TaskInterface[] = [];
+
+// Function to create a task
 const createTask = () => {
     let taskName: string = '';
     let taskDescription: string = '';
@@ -23,8 +24,8 @@ const createTask = () => {
         rl.question(`What's the Task Description?: `, (taskNameDesc) => {
             taskDescription = taskNameDesc;
 
-            rl.question(`What is the current progress?(NOT STARTED, STARTED, COMPLETED): `, (taskProgress) => {
-                const taskProgressUpper = taskProgress.toUpperCase();
+            rl.question(`What is the current progress? (NOT STARTED, STARTED, COMPLETED): `, (taskProgressInput) => {
+                const taskProgressUpper = taskProgressInput.toUpperCase();
                 
                 if (TaskProgress.NOT_STARTED.includes(taskProgressUpper) ||
                     taskProgressUpper === TaskProgress.STARTED ||
@@ -34,7 +35,7 @@ const createTask = () => {
                     taskProgress = 'INVALID STATUS';
                 }
 
-                 const newTask: TaskInterface = {
+                const newTask: TaskInterface = {
                     taskName,
                     taskDescription,
                     taskProgress
@@ -42,7 +43,6 @@ const createTask = () => {
 
                 taskArray.push(newTask);
 
-                // Single console.log statement with all information
                 console.log("Task Added Successfully!\n", JSON.stringify({
                     taskName: newTask.taskName,
                     taskDescription: newTask.taskDescription,
@@ -50,14 +50,23 @@ const createTask = () => {
                     currentTaskArray: taskArray
                 }, null, 2));
 
-                rl.close();
+                // function call to add new task
+                askToAddAnotherTask();
             });
         });
     });
 }
 
-createTask();
+// function for asking another task
+const askToAddAnotherTask = () => {
+    rl.question(`Would you like to add another task? (yes/no): `, (addNewTask) => {
+        if (addNewTask.toUpperCase() === 'YES') {
+            createTask(); // add new task
+        } else {
+            console.log('Task manager closed.');
+            rl.close(); // Close the readline interface
+        }
+    });
+}
 
-rl.on('close', () => {
-    console.log('Task manager closed.');
-});
+createTask();
