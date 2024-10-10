@@ -1,32 +1,73 @@
-/**     
- *      require instead of import, node.js doesn't support import at the moment.
- *      Visit this link for more information
- *      https://stackoverflow.com/questions/52046008/why-cant-i-import-as-readline-from-readline-in-nodejs-v10
- *
- *  */
 const TaskProgress = require('./Constants/TaskProgress.ts');
 const readLine = require('readline');
 const { stdin: input, stdout: output } = require('node:process');
+
 const rl = readLine.createInterface({ input, output });
 
-rl.question(`What's the task name?: `, (taskNameInput) => {
-    console.log(`Task name added: ${taskNameInput}`);
-    rl.question(`What's the Task Description?: `, (taskNameDesc) => {
-        console.log(`Task Description added: ${taskNameDesc}`);
-        rl.question(`What is the current progress?(NOT STARTED, STARTED, COMPLETED): `, (taskProgress) => {
-            const taskProgressUpper = taskProgress.toUpperCase();
-            if (TaskProgress.NOT_STARTED.includes(taskProgressUpper)) {
-                // do nothing
-            } else if (taskProgressUpper === TaskProgress.STARTED) {
-                // do nothing
-            } else if (taskProgressUpper === TaskProgress.COMPLETED) {
-                // do nothing
-            } else {
-                console.log("Invalid progress status");
-                // ask the question again.
-            }
-            console.log(`Task Progress is: ${taskProgressUpper}`);
-            rl.close();
+// not sure how importing works for interfaces.
+interface TaskInterface {
+    taskName: string;
+    taskDescription: string;
+    taskProgress: string;
+}
+
+const taskArray: TaskInterface[] = [];
+
+// Function to create a task
+const createTask = () => {
+    let taskName: string = '';
+    let taskDescription: string = '';
+    let taskProgress: string = '';
+
+    rl.question(`What's the task name?: `, (taskNameInput) => {
+        taskName = taskNameInput;
+
+        rl.question(`What's the Task Description?: `, (taskNameDesc) => {
+            taskDescription = taskNameDesc;
+
+            rl.question(`What is the current progress? (NOT STARTED, STARTED, COMPLETED): `, (taskProgressInput) => {
+                const taskProgressUpper = taskProgressInput.toUpperCase();
+                
+                if (TaskProgress.NOT_STARTED.includes(taskProgressUpper) ||
+                    taskProgressUpper === TaskProgress.STARTED ||
+                    taskProgressUpper === TaskProgress.COMPLETED) {
+                    taskProgress = taskProgressUpper;
+                } else {
+                    taskProgress = 'INVALID STATUS';
+                }
+
+                const newTask: TaskInterface = {
+                    taskName,
+                    taskDescription,
+                    taskProgress
+                };
+
+                taskArray.push(newTask);
+
+                console.log("Task Added Successfully!\n", JSON.stringify({
+                    taskName: newTask.taskName,
+                    taskDescription: newTask.taskDescription,
+                    taskProgress: newTask.taskProgress,
+                    currentTaskArray: taskArray
+                }, null, 2));
+
+                // function call to add new task
+                askToAddAnotherTask();
+            });
         });
     });
-});
+}
+
+// function for asking another task
+const askToAddAnotherTask = () => {
+    rl.question(`Would you like to add another task? (yes/no): `, (addNewTask) => {
+        if (addNewTask.toUpperCase() === 'YES') {
+            createTask(); // add new task
+        } else {
+            console.log('Task manager closed.');
+            rl.close(); // Close the readline interface
+        }
+    });
+}
+
+createTask();
