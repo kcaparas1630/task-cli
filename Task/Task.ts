@@ -4,6 +4,7 @@ const { stdin: input, stdout: output } = require('node:process');
 
 const rl = readLine.createInterface({ input, output });
 
+// not sure how importing works for interfaces.
 interface TaskInterface {
     taskName: string;
     taskDescription: string;
