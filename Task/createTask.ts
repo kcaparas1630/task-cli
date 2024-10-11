@@ -9,6 +9,7 @@ interface TaskInterface {
     taskName: string;
     taskDescription: string;
     taskProgress: string;
+    taskDoneDate?: Date | null;
 }
 
 const taskArray: TaskInterface[] = [];
@@ -18,6 +19,7 @@ const createTask = () => {
     let taskName: string = '';
     let taskDescription: string = '';
     let taskProgress: string = '';
+    let taskDoneDate: Date | null = null;
 
     rl.question(`What's the task name?: `, (taskNameInput) => {
         taskName = taskNameInput;
@@ -29,9 +31,11 @@ const createTask = () => {
                 const taskProgressUpper = taskProgressInput.toUpperCase();
                 
                 if (TaskProgress.NOT_STARTED.includes(taskProgressUpper) ||
-                    taskProgressUpper === TaskProgress.STARTED ||
-                    taskProgressUpper === TaskProgress.COMPLETED) {
+                    taskProgressUpper === TaskProgress.STARTED) {
                     taskProgress = taskProgressUpper;
+                } else if (taskProgressUpper === TaskProgress.COMPLETED) {
+                    taskProgress = taskProgressUpper;
+                    taskDoneDate = new Date(Date.now());
                 } else {
                     taskProgress = 'INVALID STATUS';
                 }
@@ -39,7 +43,8 @@ const createTask = () => {
                 const newTask: TaskInterface = {
                     taskName,
                     taskDescription,
-                    taskProgress
+                    taskProgress,
+                    taskDoneDate,
                 };
 
                 taskArray.push(newTask);
