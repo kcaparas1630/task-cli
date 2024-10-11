@@ -8,6 +8,7 @@ var createTask = function () {
     var taskName = '';
     var taskDescription = '';
     var taskProgress = '';
+    var taskDoneDate = null;
     rl.question("What's the task name?: ", function (taskNameInput) {
         taskName = taskNameInput;
         rl.question("What's the Task Description?: ", function (taskNameDesc) {
@@ -15,9 +16,12 @@ var createTask = function () {
             rl.question("What is the current progress? (NOT STARTED, STARTED, COMPLETED): ", function (taskProgressInput) {
                 var taskProgressUpper = taskProgressInput.toUpperCase();
                 if (TaskProgress.NOT_STARTED.includes(taskProgressUpper) ||
-                    taskProgressUpper === TaskProgress.STARTED ||
-                    taskProgressUpper === TaskProgress.COMPLETED) {
+                    taskProgressUpper === TaskProgress.STARTED) {
                     taskProgress = taskProgressUpper;
+                }
+                else if (taskProgressUpper === TaskProgress.COMPLETED) {
+                    taskProgress = taskProgressUpper;
+                    taskDoneDate = new Date(Date.now());
                 }
                 else {
                     taskProgress = 'INVALID STATUS';
@@ -25,7 +29,8 @@ var createTask = function () {
                 var newTask = {
                     taskName: taskName,
                     taskDescription: taskDescription,
-                    taskProgress: taskProgress
+                    taskProgress: taskProgress,
+                    taskDoneDate: taskDoneDate,
                 };
                 taskArray.push(newTask);
                 console.log("Task Added Successfully!\n", JSON.stringify({
