@@ -48,7 +48,8 @@ const createTask: CreateTask = ({ taskArray }) => {
             } else {
                 taskProgress = 'INVALID STATUS';
             }
-
+            
+            // move this to a different helper function.
             const newTask: TaskInterface = {
                 taskName,
                 taskDescription,
