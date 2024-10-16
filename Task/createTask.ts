@@ -1,8 +1,4 @@
 const TaskProgress = require('./Constants/TaskProgress.ts');
-const readLine = require('readline');
-const { stdin: input, stdout: output } = require('node:process');
-const rl = readLine.createInterface({ input, output });
-
 interface TaskInterface {
     taskName: string;
     taskDescription: string;
@@ -10,10 +6,14 @@ interface TaskInterface {
     taskDoneDate?: Date | null;
 }
 
-type CreateTask = (params: { taskArray: TaskInterface[] }) => void;
+type CreateTask = (params: { 
+    taskArray: TaskInterface[], 
+    rl: any,
+    MainMenuCallBack: () => void,
+}) => void;
 
 // Function to create a task
-const createTask: CreateTask = ({ taskArray }) => {
+const createTask: CreateTask = ({ taskArray, rl, MainMenuCallBack }) => {
     let taskName: string = '';
     let taskDescription: string = '';
     let taskProgress: string = '';
@@ -70,8 +70,8 @@ const createTask: CreateTask = ({ taskArray }) => {
             if (addNewTask.toUpperCase() === 'YES') {
                 askTaskName(); // add new task
             } else {
-                console.log('Task manager closed.');
-                rl.close(); // Close the readline interface
+                console.log('Returning to Main Menu.');
+                MainMenuCallBack();
             }
         });
     };

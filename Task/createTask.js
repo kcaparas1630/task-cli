@@ -1,10 +1,7 @@
 var TaskProgress = require('./Constants/TaskProgress.ts');
-var readLine = require('readline');
-var _a = require('node:process'), input = _a.stdin, output = _a.stdout;
-var rl = readLine.createInterface({ input: input, output: output });
 // Function to create a task
 var createTask = function (_a) {
-    var taskArray = _a.taskArray;
+    var taskArray = _a.taskArray, rl = _a.rl, MainMenuCallBack = _a.MainMenuCallBack;
     var taskName = '';
     var taskDescription = '';
     var taskProgress = '';
@@ -27,8 +24,6 @@ var createTask = function (_a) {
     var askTaskProgress = function (taskName, taskDescription) {
         rl.question("What is the current progress? (NOT STARTED, STARTED, COMPLETED): ", function (taskProgressInput) {
             var taskProgressUpper = taskProgressInput.toUpperCase();
-            var taskProgress;
-            var taskDoneDate = null;
             if (TaskProgress.NOT_STARTED.includes(taskProgressUpper) ||
                 taskProgressUpper === TaskProgress.STARTED) {
                 taskProgress = taskProgressUpper;
@@ -40,6 +35,7 @@ var createTask = function (_a) {
             else {
                 taskProgress = 'INVALID STATUS';
             }
+            // move this to a different helper function.
             var newTask = {
                 taskName: taskName,
                 taskDescription: taskDescription,
@@ -59,8 +55,8 @@ var createTask = function (_a) {
                 askTaskName(); // add new task
             }
             else {
-                console.log('Task manager closed.');
-                rl.close(); // Close the readline interface
+                console.log('Returning to Main Menu.');
+                MainMenuCallBack();
             }
         });
     };
