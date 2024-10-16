@@ -1,10 +1,9 @@
-var TaskProgress = require('./Constants/TaskProgress.ts');
 // Function to create a task
 var createTask = function (_a) {
-    var taskArray = _a.taskArray, rl = _a.rl, MainMenuCallBack = _a.MainMenuCallBack;
-    var taskName = '';
-    var taskDescription = '';
-    var taskProgress = '';
+    var taskArray = _a.taskArray, rl = _a.rl, TaskProgress = _a.TaskProgress, MainMenuCallBack = _a.MainMenuCallBack;
+    var taskName = "";
+    var taskDescription = "";
+    var taskProgress = "";
     var taskDoneDate = null;
     // function for taskName
     var askTaskName = function () {
@@ -33,7 +32,7 @@ var createTask = function (_a) {
                 taskDoneDate = new Date(Date.now());
             }
             else {
-                taskProgress = 'INVALID STATUS';
+                taskProgress = "INVALID STATUS";
             }
             // move this to a different helper function.
             var newTask = {
@@ -51,11 +50,11 @@ var createTask = function (_a) {
     // function for asking another task
     var askToAddAnotherTask = function () {
         rl.question("Would you like to add another task? (yes/no): ", function (addNewTask) {
-            if (addNewTask.toUpperCase() === 'YES') {
+            if (addNewTask.toUpperCase() === "YES") {
                 askTaskName(); // add new task
             }
             else {
-                console.log('Returning to Main Menu.');
+                console.log("Returning to Main Menu.");
                 MainMenuCallBack();
             }
         });

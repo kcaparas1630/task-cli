@@ -1,5 +1,6 @@
 const TaskCreate = require('./createTask');
 const TaskEdit = require('./editTask');
+const TaskProgress = require('./Constants/TaskProgress.ts');
 const readLine = require('readline');
 const { stdin: input, stdout: output } = require('node:process');
 const rl = readLine.createInterface({ input, output });
@@ -18,9 +19,9 @@ const TaskMain = () => {
     const askProcess = () => {
         rl.question(`What would you like to do? (Add, Edit, Delete, Exit): `, (processInput) => {
             if(processInput.toUpperCase() === 'ADD') {
-                TaskCreate({taskArray, rl, MainMenuCallBack: askProcess});
+                TaskCreate({taskArray, rl, TaskProgress, MainMenuCallBack: askProcess});
             } else if (processInput.toUpperCase() === 'EDIT') {
-                TaskEdit({taskArray, rl, MainMenuCallBack: askProcess});
+                TaskEdit({taskArray, rl, TaskProgress, MainMenuCallBack: askProcess});
             } else if (processInput.toUpperCase() === 'DELETE') {
                 // Delete
             } else if (processInput.toUpperCase() === 'EXIT') {
