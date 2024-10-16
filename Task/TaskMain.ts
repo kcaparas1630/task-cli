@@ -16,13 +16,16 @@ const taskArray: TaskInterface[] = [];
 
 const TaskMain = () => {
     const askProcess = () => {
-        rl.question(`What would you like to do? (Add, Edit, Delete): `, (processInput) => {
+        rl.question(`What would you like to do? (Add, Edit, Delete, Exit): `, (processInput) => {
             if(processInput.toUpperCase() === 'ADD') {
                 TaskCreate({taskArray, rl, MainMenuCallBack: askProcess});
             } else if (processInput.toUpperCase() === 'EDIT') {
                 TaskEdit({taskArray, rl, MainMenuCallBack: askProcess});
             } else if (processInput.toUpperCase() === 'DELETE') {
                 // Delete
+            } else if (processInput.toUpperCase() === 'EXIT') {
+                console.log('Task manager closed');
+                rl.close();
             } else {
                 console.log('Wrong Input. Task manager closed.');
                 rl.close(); // close command line
