@@ -1,4 +1,10 @@
 const TaskCreate = require('./createTask');
+const TaskEdit = require('./editTask');
+const TaskProgress = require('./Constants/TaskProgress.ts');
+const readLine = require('readline');
+const { stdin: input, stdout: output } = require('node:process');
+const rl = readLine.createInterface({ input, output });
+
 // not sure how importing works for interfaces.
 interface TaskInterface {
     taskName: string;
@@ -10,7 +16,25 @@ interface TaskInterface {
 const taskArray: TaskInterface[] = [];
 
 const TaskMain = () => {
-    TaskCreate({taskArray});
+    const askProcess = () => {
+        rl.question(`What would you like to do? (Add, Edit, Delete, Exit): `, (processInput) => {
+            if(processInput.toUpperCase() === 'ADD') {
+                TaskCreate({taskArray, rl, TaskProgress, MainMenuCallBack: askProcess});
+            } else if (processInput.toUpperCase() === 'EDIT') {
+                TaskEdit({taskArray, rl, TaskProgress, MainMenuCallBack: askProcess});
+            } else if (processInput.toUpperCase() === 'DELETE') {
+                // Delete
+            } else if (processInput.toUpperCase() === 'EXIT') {
+                console.log('Task manager closed');
+                rl.close();
+            } else {
+                console.log('Wrong Input. Task manager closed.');
+                rl.close(); // close command line
+            }
+        });
+    };
+    askProcess();
+    
 }
 
 TaskMain();
