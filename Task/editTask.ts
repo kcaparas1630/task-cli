@@ -38,12 +38,14 @@ const editTask: EditTask = ({
         if (itemEditInput.toUpperCase() === "NAME") {
           rl.question(`What should be the task name?: `, (itemEditName) => {
             taskArray[itemIndex].taskName = itemEditName;
+            console.log(taskArray);
           });
         } else if (itemEditInput.toUpperCase() === "DESCRIPTION") {
           rl.question(
             `What should be the task description?: `,
             (itemEditDescription) => {
               taskArray[itemIndex].taskDescription = itemEditDescription;
+              console.log(taskArray);
             }
           );
         } else if (itemEditInput.toUpperCase() === "PROGRESS") {
@@ -54,12 +56,14 @@ const editTask: EditTask = ({
               if (itemEditProgress.toUpperCase() === TaskProgress.COMPLETED) {
                 taskArray[itemIndex].taskDoneDate = new Date(Date.now());
               }
+              console.log(taskArray);
             }
           );
         } else {
           console.log("Wrong input. Task Manager closed.");
           rl.close();
         }
+        
       }
     );
   };

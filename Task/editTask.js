@@ -13,11 +13,13 @@ var editTask = function (_a) {
             if (itemEditInput.toUpperCase() === "NAME") {
                 rl.question("What should be the task name?: ", function (itemEditName) {
                     taskArray[itemIndex].taskName = itemEditName;
+                    console.log(taskArray);
                 });
             }
             else if (itemEditInput.toUpperCase() === "DESCRIPTION") {
                 rl.question("What should be the task description?: ", function (itemEditDescription) {
                     taskArray[itemIndex].taskDescription = itemEditDescription;
+                    console.log(taskArray);
                 });
             }
             else if (itemEditInput.toUpperCase() === "PROGRESS") {
@@ -26,6 +28,7 @@ var editTask = function (_a) {
                     if (itemEditProgress.toUpperCase() === TaskProgress.COMPLETED) {
                         taskArray[itemIndex].taskDoneDate = new Date(Date.now());
                     }
+                    console.log(taskArray);
                 });
             }
             else {
