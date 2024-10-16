@@ -13,13 +13,13 @@ var editTask = function (_a) {
             if (itemEditInput.toUpperCase() === "NAME") {
                 rl.question("What should be the task name?: ", function (itemEditName) {
                     taskArray[itemIndex].taskName = itemEditName;
-                    console.log(taskArray);
+                    PrintArray(itemIndex);
                 });
             }
             else if (itemEditInput.toUpperCase() === "DESCRIPTION") {
                 rl.question("What should be the task description?: ", function (itemEditDescription) {
                     taskArray[itemIndex].taskDescription = itemEditDescription;
-                    console.log(taskArray);
+                    PrintArray(itemIndex);
                 });
             }
             else if (itemEditInput.toUpperCase() === "PROGRESS") {
@@ -28,12 +28,29 @@ var editTask = function (_a) {
                     if (itemEditProgress.toUpperCase() === TaskProgress.COMPLETED) {
                         taskArray[itemIndex].taskDoneDate = new Date(Date.now());
                     }
-                    console.log(taskArray);
+                    PrintArray(itemIndex);
                 });
             }
             else {
                 console.log("Wrong input. Task Manager closed.");
                 rl.close();
+            }
+        });
+    };
+    // helper for DRY method.
+    var PrintArray = function (itemIndex) {
+        console.log("Task Edited Successfully!\n", JSON.stringify(taskArray[itemIndex], null, 2));
+        console.log("Current Task Array:\n", JSON.stringify(taskArray, null, 2));
+        askToEditAnotherTask();
+    };
+    var askToEditAnotherTask = function () {
+        rl.question("Would you like to edit another task? (yes/no): ", function (editNewTask) {
+            if (editNewTask.toUpperCase() === "YES") {
+                askItemName(); // Edit new task
+            }
+            else {
+                console.log("Returning to Main Menu.");
+                MainMenuCallBack();
             }
         });
     };
