@@ -13,12 +13,10 @@ var editTask = function (_a) {
                     return item.taskName.toUpperCase() === itemNameInput.toUpperCase();
                 });
                 if (itemIndex > -1) {
-                    askItemEdit_1(itemIndex);
+                    return askItemEdit_1(itemIndex);
                 }
-                else {
-                    console.log('Wrong Input. Please try again.');
-                    askItemName_1();
-                }
+                console.log("Wrong Input. Please try again.");
+                askItemName_1();
             });
         };
         var askItemEdit_1 = function (itemIndex) {
@@ -58,15 +56,15 @@ var editTask = function (_a) {
         };
         var askToEditAnotherTask_1 = function () {
             rl.question("Would you like to edit another task? (yes/no): ", function (editNewTask) {
-                if (editNewTask.toUpperCase() === 'YES') {
+                if (editNewTask.toUpperCase() === "YES") {
                     askItemName_1(); // Edit new task
                 }
-                else if (editNewTask.toUpperCase() === 'NO') {
+                else if (editNewTask.toUpperCase() === "NO") {
                     console.log("Returning to Main Menu.");
                     MainMenuCallBack();
                 }
                 else {
-                    console.log('Wrong Input. Please try again.');
+                    console.log("Wrong Input. Please try again.");
                     askToEditAnotherTask_1();
                 }
             });

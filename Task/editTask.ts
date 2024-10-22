@@ -33,12 +33,10 @@ const editTask: EditTask = ({
               item.taskName.toUpperCase() === itemNameInput.toUpperCase()
           );
           if (itemIndex > -1) {
-            askItemEdit(itemIndex);
+            return askItemEdit(itemIndex);
           }
-          else {
-            console.log('Wrong Input. Please try again.');
-            askItemName();
-          }
+          console.log("Wrong Input. Please try again.");
+          askItemName();
         }
       );
     };
@@ -90,13 +88,13 @@ const editTask: EditTask = ({
       rl.question(
         `Would you like to edit another task? (yes/no): `,
         (editNewTask) => {
-          if (editNewTask.toUpperCase() === 'YES') {
+          if (editNewTask.toUpperCase() === "YES") {
             askItemName(); // Edit new task
-          } else if (editNewTask.toUpperCase() === 'NO') {
+          } else if (editNewTask.toUpperCase() === "NO") {
             console.log("Returning to Main Menu.");
             MainMenuCallBack();
           } else {
-            console.log('Wrong Input. Please try again.');
+            console.log("Wrong Input. Please try again.");
             askToEditAnotherTask();
           }
         }
