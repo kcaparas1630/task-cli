@@ -73,8 +73,6 @@ const editTask: EditTask = ({
           } else {
             console.log("Wrong input. Please try again.");
             askItemEdit(itemIndex);
-            // console.log("Wrong input. Task Manager closed.");
-            // rl.close();
           }
         }
       );

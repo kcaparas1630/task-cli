@@ -47,8 +47,6 @@ var editTask = function (_a) {
                 else {
                     console.log("Wrong input. Please try again.");
                     askItemEdit_1(itemIndex);
-                    // console.log("Wrong input. Task Manager closed.");
-                    // rl.close();
                 }
             });
         };
