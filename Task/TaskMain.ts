@@ -29,8 +29,8 @@ const TaskMain = () => {
                 console.log('Task manager closed');
                 rl.close();
             } else {
-                console.log('Wrong Input. Task manager closed.');
-                rl.close(); // close command line
+                console.log('Wrong Input. Please try again.');
+                askProcess();
             }
         });
     };
