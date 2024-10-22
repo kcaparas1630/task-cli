@@ -12,11 +12,11 @@ type DeleteTask = (params: {
 }) => void;
 
 const deleteTask: DeleteTask = ({ taskArray, rl, MainMenuCallBack }) => {
-  if (taskArray.length == 0) {
-    console.log("Task is empty. Add an item first");
-    MainMenuCallBack();
-  } else {
-    const deleteItem = () => {
+  const deleteItem = () => {
+    if (taskArray.length == 0) {
+      console.log("Task is empty. Add an item first");
+      MainMenuCallBack();
+    } else {
       rl.question(
         `Which Task wouild you like to delete? [${taskArray
           .map((items) => items.taskName)
@@ -30,33 +30,38 @@ const deleteTask: DeleteTask = ({ taskArray, rl, MainMenuCallBack }) => {
             taskArray.splice(itemIndex, 1);
             PrintArray();
           } else {
-            console.log('Task cannot be found, or incorrect input. Please try again.');
+            console.log(
+              "Task cannot be found, or incorrect input. Please try again."
+            );
             deleteItem();
           }
-          
         }
       );
-    };
-    // helper for DRY method.
-    const PrintArray = () => {
-      console.log("Current Task Array:\n", JSON.stringify(taskArray, null, 2));
-      askToDeleteAnotherTask();
-    };
-    const askToDeleteAnotherTask = () => {
-      rl.question(
-        `Would you like to delete another task? (yes/no): `,
-        (editNewTask) => {
-          if (editNewTask.toUpperCase() === "YES") {
-            deleteItem(); // Edit new task
-          } else {
-            console.log("Returning to Main Menu.");
-            MainMenuCallBack();
-          }
+    }
+  };
+  // helper for DRY method.
+  const PrintArray = () => {
+    if (taskArray.length == 0) {
+      console.log("Task List is empty");
+    } else {
+      console.log("Current Task List:\n", JSON.stringify(taskArray, null, 2));
+    }
+    askToDeleteAnotherTask();
+  };
+  const askToDeleteAnotherTask = () => {
+    rl.question(
+      `Would you like to delete another task? (yes/no): `,
+      (editNewTask) => {
+        if (editNewTask.toUpperCase() === "YES") {
+          deleteItem(); // Edit new task
+        } else {
+          console.log("Returning to Main Menu.");
+          MainMenuCallBack();
         }
-      );
-    };
-    deleteItem();
-  }
+      }
+    );
+  };
+  deleteItem();
 };
 
 module.exports = deleteTask;
