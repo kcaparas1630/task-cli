@@ -14,8 +14,12 @@ var deleteTask = function (_a) {
                 });
                 if (itemIndex > -1) {
                     taskArray.splice(itemIndex, 1);
+                    PrintArray_1();
                 }
-                PrintArray_1();
+                else {
+                    console.log('Task cannot be found, or incorrect input. Please try again.');
+                    deleteItem_1();
+                }
             });
         };
         // helper for DRY method.

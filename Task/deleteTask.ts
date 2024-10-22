@@ -28,8 +28,12 @@ const deleteTask: DeleteTask = ({ taskArray, rl, MainMenuCallBack }) => {
           );
           if (itemIndex > -1) {
             taskArray.splice(itemIndex, 1);
+            PrintArray();
+          } else {
+            console.log('Task cannot be found, or incorrect input. Please try again.');
+            deleteItem();
           }
-          PrintArray();
+          
         }
       );
     };
