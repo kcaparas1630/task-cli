@@ -32,7 +32,13 @@ const editTask: EditTask = ({
             (item) =>
               item.taskName.toUpperCase() === itemNameInput.toUpperCase()
           );
-          askItemEdit(itemIndex);
+          if (itemIndex > -1) {
+            askItemEdit(itemIndex);
+          }
+          else {
+            console.log('Wrong Input. Please try again.');
+            askItemName();
+          }
         }
       );
     };
@@ -65,8 +71,10 @@ const editTask: EditTask = ({
               }
             );
           } else {
-            console.log("Wrong input. Task Manager closed.");
-            rl.close();
+            console.log("Wrong input. Please try again.");
+            askItemEdit(itemIndex);
+            // console.log("Wrong input. Task Manager closed.");
+            // rl.close();
           }
         }
       );
@@ -84,11 +92,14 @@ const editTask: EditTask = ({
       rl.question(
         `Would you like to edit another task? (yes/no): `,
         (editNewTask) => {
-          if (editNewTask.toUpperCase() === "YES") {
+          if (editNewTask.toUpperCase() === 'YES') {
             askItemName(); // Edit new task
-          } else {
+          } else if (editNewTask.toUpperCase() === 'NO') {
             console.log("Returning to Main Menu.");
             MainMenuCallBack();
+          } else {
+            console.log('Wrong Input. Please try again.');
+            askToEditAnotherTask();
           }
         }
       );
