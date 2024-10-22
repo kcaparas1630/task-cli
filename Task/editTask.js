@@ -35,11 +35,18 @@ var editTask = function (_a) {
                 }
                 else if (itemEditInput.toUpperCase() === "PROGRESS") {
                     rl.question("What should be the task progress?: ", function (itemEditProgress) {
-                        taskArray[itemIndex].taskProgress = itemEditProgress;
-                        if (itemEditProgress.toUpperCase() === TaskProgress.COMPLETED) {
-                            taskArray[itemIndex].taskDoneDate = new Date(Date.now());
+                        if (taskArray[itemIndex].taskProgress.toUpperCase() ===
+                            itemEditProgress.toUpperCase()) {
+                            console.log("Progress is already ".concat(itemEditProgress.toUpperCase()));
+                            askToEditAnotherTask_1();
                         }
-                        PrintArray_1(itemIndex);
+                        else {
+                            taskArray[itemIndex].taskProgress = itemEditProgress;
+                            if (itemEditProgress.toUpperCase() === TaskProgress.COMPLETED) {
+                                taskArray[itemIndex].taskDoneDate = new Date(Date.now());
+                            }
+                            PrintArray_1(itemIndex);
+                        }
                     });
                 }
                 else {

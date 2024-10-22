@@ -61,11 +61,23 @@ const editTask: EditTask = ({
             rl.question(
               `What should be the task progress?: `,
               (itemEditProgress) => {
-                taskArray[itemIndex].taskProgress = itemEditProgress;
-                if (itemEditProgress.toUpperCase() === TaskProgress.COMPLETED) {
-                  taskArray[itemIndex].taskDoneDate = new Date(Date.now());
+                if (
+                  taskArray[itemIndex].taskProgress.toUpperCase() ===
+                  itemEditProgress.toUpperCase()
+                ) {
+                  console.log(
+                    `Progress is already ${itemEditProgress.toUpperCase()}`
+                  );
+                  askToEditAnotherTask();
+                } else {
+                  taskArray[itemIndex].taskProgress = itemEditProgress;
+                  if (
+                    itemEditProgress.toUpperCase() === TaskProgress.COMPLETED
+                  ) {
+                    taskArray[itemIndex].taskDoneDate = new Date(Date.now());
+                  }
+                  PrintArray(itemIndex);
                 }
-                PrintArray(itemIndex);
               }
             );
           } else {
