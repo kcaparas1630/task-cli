@@ -1,5 +1,6 @@
 var TaskCreate = require('./createTask');
 var TaskEdit = require('./editTask');
+var TaskDelete = require('./deleteTask');
 var TaskProgress = require('./Constants/TaskProgress.ts');
 var readLine = require('readline');
 var _a = require('node:process'), input = _a.stdin, output = _a.stdout;
@@ -15,15 +16,15 @@ var TaskMain = function () {
                 TaskEdit({ taskArray: taskArray, rl: rl, TaskProgress: TaskProgress, MainMenuCallBack: askProcess });
             }
             else if (processInput.toUpperCase() === 'DELETE') {
-                // Delete
+                TaskDelete({ taskArray: taskArray, rl: rl, MainMenuCallBack: askProcess });
             }
             else if (processInput.toUpperCase() === 'EXIT') {
                 console.log('Task manager closed');
                 rl.close();
             }
             else {
-                console.log('Wrong Input. Task manager closed.');
-                rl.close(); // close command line
+                console.log('Wrong Input. Please try again.');
+                askProcess();
             }
         });
     };
