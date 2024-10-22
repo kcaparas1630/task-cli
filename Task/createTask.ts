@@ -46,40 +46,41 @@ const createTask: CreateTask = ({
       `What is the current progress? (NOT STARTED, STARTED, COMPLETED): `,
       (taskProgressInput) => {
         const taskProgressUpper = taskProgressInput.toUpperCase();
+        const isValidInput = [
+          ...TaskProgress.NOT_STARTED,
+          TaskProgress.STARTED,
+          TaskProgress.COMPLETED,
+        ].includes(taskProgressUpper);
+        if (!isValidInput) {
+          console.log("Wrong Input. Please try again.");
+          return askTaskProgress(taskName, taskDescription);
+        }
 
-        if (
-          TaskProgress.NOT_STARTED.includes(taskProgressUpper) ||
-          taskProgressUpper === TaskProgress.STARTED
-        ) {
-          taskProgress = taskProgressUpper;
-        } else if (taskProgressUpper === TaskProgress.COMPLETED) {
+        if (TaskProgress.COMPLETED.includes(taskProgressUpper)) {
           taskProgress = taskProgressUpper;
           taskDoneDate = new Date(Date.now());
         } else {
-          taskProgress = "INVALID STATUS";
+          taskProgress = taskProgressUpper;
         }
 
-        // move this to a different helper function.
+        // Create and store new task
         const newTask: TaskInterface = {
           taskName,
           taskDescription,
           taskProgress,
           taskDoneDate,
         };
-
         taskArray.push(newTask);
-        console.log(
-          "Task Added Successfully!\n",
-          JSON.stringify(newTask, null, 2)
-        );
-        console.log(
-          "Current Task Array:\n",
-          JSON.stringify(taskArray, null, 2)
-        );
-
+        PrintArray(newTask);
         askToAddAnotherTask();
       }
     );
+  };
+  // helper for DRY method.
+  const PrintArray = (newTask: any) => {
+    console.log("Task Added Successfully!\n", JSON.stringify(newTask, null, 2));
+    console.log("Current Task Array:\n", JSON.stringify(taskArray, null, 2));
+    askToAddAnotherTask();
   };
   // function for asking another task
   const askToAddAnotherTask = () => {
@@ -88,9 +89,12 @@ const createTask: CreateTask = ({
       (addNewTask) => {
         if (addNewTask.toUpperCase() === "YES") {
           askTaskName(); // add new task
-        } else {
+        } else if (addNewTask.toUpperCase() === "NO") {
           console.log("Returning to Main Menu.");
           MainMenuCallBack();
+        } else {
+          console.log("Wrong Input. Please try again.");
+          askToAddAnotherTask();
         }
       }
     );

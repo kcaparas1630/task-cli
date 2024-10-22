@@ -1,3 +1,12 @@
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 // Function to create a task
 var createTask = function (_a) {
     var taskArray = _a.taskArray, rl = _a.rl, TaskProgress = _a.TaskProgress, MainMenuCallBack = _a.MainMenuCallBack;
@@ -23,18 +32,22 @@ var createTask = function (_a) {
     var askTaskProgress = function (taskName, taskDescription) {
         rl.question("What is the current progress? (NOT STARTED, STARTED, COMPLETED): ", function (taskProgressInput) {
             var taskProgressUpper = taskProgressInput.toUpperCase();
-            if (TaskProgress.NOT_STARTED.includes(taskProgressUpper) ||
-                taskProgressUpper === TaskProgress.STARTED) {
-                taskProgress = taskProgressUpper;
+            var isValidInput = __spreadArray(__spreadArray([], TaskProgress.NOT_STARTED, true), [
+                TaskProgress.STARTED,
+                TaskProgress.COMPLETED,
+            ], false).includes(taskProgressUpper);
+            if (!isValidInput) {
+                console.log("Wrong Input. Please try again.");
+                return askTaskProgress(taskName, taskDescription);
             }
-            else if (taskProgressUpper === TaskProgress.COMPLETED) {
+            if (TaskProgress.COMPLETED.includes(taskProgressUpper)) {
                 taskProgress = taskProgressUpper;
                 taskDoneDate = new Date(Date.now());
             }
             else {
-                taskProgress = "INVALID STATUS";
+                taskProgress = taskProgressUpper;
             }
-            // move this to a different helper function.
+            // Create and store new task
             var newTask = {
                 taskName: taskName,
                 taskDescription: taskDescription,
@@ -42,10 +55,15 @@ var createTask = function (_a) {
                 taskDoneDate: taskDoneDate,
             };
             taskArray.push(newTask);
-            console.log("Task Added Successfully!\n", JSON.stringify(newTask, null, 2));
-            console.log("Current Task Array:\n", JSON.stringify(taskArray, null, 2));
+            PrintArray(newTask);
             askToAddAnotherTask();
         });
+    };
+    // helper for DRY method.
+    var PrintArray = function (newTask) {
+        console.log("Task Added Successfully!\n", JSON.stringify(newTask, null, 2));
+        console.log("Current Task Array:\n", JSON.stringify(taskArray, null, 2));
+        askToAddAnotherTask();
     };
     // function for asking another task
     var askToAddAnotherTask = function () {
@@ -53,9 +71,13 @@ var createTask = function (_a) {
             if (addNewTask.toUpperCase() === "YES") {
                 askTaskName(); // add new task
             }
-            else {
+            else if (addNewTask.toUpperCase() === "NO") {
                 console.log("Returning to Main Menu.");
                 MainMenuCallBack();
+            }
+            else {
+                console.log("Wrong Input. Please try again.");
+                askToAddAnotherTask();
             }
         });
     };
